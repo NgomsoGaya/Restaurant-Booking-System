@@ -50,24 +50,24 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/book", async (req, res) => {
-        //let table = await factory.getTables();
-    
-        let userName = req.body.username
-        let NumberOfPeople =req.body.booking_size
-        let CellNo = req.body.phone_number
-        let tableName = req.body.tableId;
-    
-        //console.log(tableName);     
-    let message = await factory.bookTable({
-      tableName,
-      userName,
-      CellNo,
-      NumberOfPeople,
-    });
+  //let table = await factory.getTables();
 
-    res.render("index", { message })
-    
-   // res.redirect("/")
+  let userName = req.body.username;
+  let NumberOfPeople = req.body.booking_size;
+  let CellNo = req.body.phone_number;
+  let tableRadio = req.body.tableId;
+
+  //console.log(tableRadio);
+  let message = await factory.bookTable({
+    tableRadio,
+    userName,
+    CellNo,
+    NumberOfPeople,
+  });
+
+  res.render("index", { message });
+
+  // res.redirect("/")
 })
 
 app.get("/bookings", (req, res) => {
