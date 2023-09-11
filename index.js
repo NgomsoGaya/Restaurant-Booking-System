@@ -37,12 +37,13 @@ app.set('view engine', 'handlebars');
 const factory = restaurant(db)
 
 app.get("/", async (req, res) => {
-
+    //create an intance for tables
     let table = await factory.getTables()
    
 
     //console.log(table)
 
+    //render them accordingly
     res.render("index", {
         tables: table
     });
@@ -52,12 +53,14 @@ app.get("/", async (req, res) => {
 app.post("/book", async (req, res) => {
   //let table = await factory.getTables();
 
+   // access all the inputs
   let userName = req.body.username;
   let NumberOfPeople = req.body.booking_size;
   let CellNo = req.body.phone_number;
   let tableRadio = req.body.tableId;
 
-  //console.log(tableRadio);
+    //console.log(tableRadio);
+    //create an instance
   let message = await factory.bookTable({
     tableRadio,
     userName,
@@ -65,12 +68,14 @@ app.post("/book", async (req, res) => {
     NumberOfPeople,
   });
 
+    //render the messages accordingly
   res.render("index", { message });
 
   // res.redirect("/")
 })
 
 app.get("/bookings", (req, res) => {
+
     res.render('bookings', { tables : [{}, {}, {}, {}, {}, {}]})
 });
 

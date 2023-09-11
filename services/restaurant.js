@@ -53,11 +53,24 @@ const restaurant = (db) => {
 
     async function getBookedTables() {
       // get all the booked tables
-      
+      let bookedTables = await db.any("SELECT table_name FROM table_booking WHERE booked = $1",
+      [true])
+
+      return bookedTables
     }
 
     async function isTableBooked(tableName) {
-        // get booked table by name
+      // get booked table by name
+      let isBooked = await db.any(
+        "SELECT booked FROM table_booking"
+      );
+      isBooked.forEach(element => {
+        if (element == false) {
+          return element
+        } else if(element == true){
+          return "is booked"
+        }
+      });
     }
 
     async function cancelTableBooking(tableName) {
@@ -65,7 +78,15 @@ const restaurant = (db) => {
     }
 
     async function getBookedTablesForUser(username) {
-        // get user table booking
+      // get user table booking
+      let tables = await db.any("SELECT * FROM table_booking");
+      tables.forEach((element) => {
+        if (element.booked == false) {
+          return "Is not booked";
+        } else if (element.booked == true) {
+          return element;
+        }
+      });
     }
 
     return {
